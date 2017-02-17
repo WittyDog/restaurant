@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Liste des réservations</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Nom</th>
+                <th>Telephone</th>
+                <th>Statut</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for reservation in reservations %}
+            <tr>
+                <td><a href="{{ path('reservation_show', { 'id': reservation.id }) }}">{{ reservation.id }}</a></td>
+                <td>{% if reservation.date %}{{ reservation.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ reservation.nombre }}</td>
+                <td>{{ reservation.email }}</td>
+                <td>{{ reservation.nom }}</td>
+                <td>{{ reservation.telephone }}</td>
+                <td>{{ reservation.statut }}</td>
+                <td>
+                    <a href="{{ path('reservation_show', { 'id': reservation.id }) }}" class="btn btn-primary" role="button">Afficher</a>
+
+                    {% if reservation.statut == "attente" %}
+                        <a href="{{ path('reservation_confirm', { 'id': reservation.id }) }}" class="btn btn-success" role="button">Confirmer</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

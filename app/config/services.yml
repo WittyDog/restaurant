@@ -1,0 +1,21 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/service_container.html
+parameters:
+#    parameter_name: value
+
+services:
+
+    app.email_handler:
+        class: RestaurantBundle\Utils\EmailHandler
+        arguments: ["@mailer","@templating","@doctrine.orm.entity_manager","@logger","%restaurant.config.email_handler%"]
+
+    app.file_uploader:
+        class: RestaurantBundle\Utils\FileUploader
+        arguments: ['%files_directory%']
+
+    app.file_upload_listener:
+        class: RestaurantBundle\EventListener\FileUploadListener
+        arguments: ["@app.file_uploader"]
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }

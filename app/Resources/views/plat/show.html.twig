@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Plat</h1>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Descriptif du plat</div>
+        <div class="panel-body">
+
+            <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ plat.id }}</td>
+                </tr>
+                <tr>
+                    <th>Titre</th>
+                    <td>{{ plat.titre }}</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>{{ plat.description }}</td>
+                </tr>
+                <tr>
+                    <th>Auteur</th>
+                    <td>
+                        <a href="{{ path('utilisateur_show', { 'id': plat.auteur.id }) }}">{{ plat.auteur.prenom }} {{ plat.auteur.nom }}</a>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Prix</th>
+                    <td>{{ plat.prix }}</td>
+                </tr>
+                <tr>
+                    <th>Statut</th>
+                    <td>{{ plat.statut }}</td>
+                </tr>
+                <tr>
+                    <th>Faitmaison</th>
+                    <td>{% if plat.faitMaison %}Oui{% else %}Non{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Image</th>
+                    <td>
+                        {% if plat.image %}
+                            <a href="{{ asset('uploaded_files/' ~ plat.image) }}">
+                                <img src="{{ asset('uploaded_files/' ~ plat.image) }}" alt="photographie du plat" width="160" height="90"/>
+                            </a>
+                        {% else %}
+                            Aucune image.
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Categorie</th>
+                    <td>{{ plat.categorie }}</td>
+                </tr>
+                <tr>
+                    <th>Allergenes</th>
+                    <td>
+                        {% for allergene in plat.allergenes %}
+                            {{ allergene }}
+                            {% if not loop.last %} | {% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Actions disponibles</div>
+        <div class="panel-body">
+
+            {% if (is_granted('ROLE_EDITEUR') and plat.auteur.id == app.user.id) or is_granted('ROLE_REVIEWER') %}
+                <a href="{{ path('plat_edit', { 'id': plat.id }) }}" class="btn btn-primary">Modifier</a>
+            {% endif %}
+
+            {% if plat.statut == "en validation" and is_granted('ROLE_REVIEWER') %}
+                <a href="{{ path('plat_validate', { 'id': plat.id }) }}" class="btn btn-success">Valider</a>
+                <a href="{{ path('plat_refuse', { 'id': plat.id }) }}" class="btn btn-warning">Refuser</a>
+            {% endif %}
+
+            {% if is_granted('ROLE_CHEF') %}
+                {{ form_start(delete_form, { 'attr': {'class': 'inline-form'}}) }}
+                <input type="submit" class="btn btn-danger" value="Supprimer">
+                {{ form_end(delete_form) }}
+            {% endif %}
+
+            <a href="{{ path('plat_index') }}" class="btn btn-default">Retour à la liste des plats</a>
+
+        </div>
+    </div>
+{% endblock %}

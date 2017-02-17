@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Modification d'un plat</h1>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Formulaire de modification</div>
+        <div class="panel-body">
+            {{ form_start(edit_form) }}
+                {{ form_widget(edit_form) }}
+                <input type="submit" class="btn btn-primary" value="Enregistrer les modifications" />
+            {{ form_end(edit_form) }}
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Autres actions</div>
+        <div class="panel-body">
+
+            {% if is_granted('ROLE_CHEF') %}
+                {{ form_start(delete_form, { 'attr': {'class': 'inline-form'}}) }}
+                <input type="submit" class="btn btn-danger" value="Supprimer">
+                {{ form_end(delete_form) }}
+            {% endif %}
+
+            <a href="{{ path('plat_index') }}" class="btn btn-default">Retour à liste des plats</a>
+        </div>
+    </div>
+
+{% endblock %}

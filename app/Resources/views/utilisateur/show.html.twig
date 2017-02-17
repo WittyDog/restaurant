@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Profil utilisateur</h1>
+
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Informations sur l'utilisateur</div>
+        <div class="panel-body">
+
+            <table class="table table-striped">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ utilisateur.id }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ utilisateur.prenom }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ utilisateur.nom }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ utilisateur.email }}</td>
+            </tr>
+            <tr>
+                <th>Role</th>
+                <td>{{ utilisateur.role }}</td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td>{{ utilisateur.password }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Actions disponibles</div>
+        <div class="panel-body">
+
+            <a href="{{ path('utilisateur_edit', { 'id': utilisateur.id }) }}" class="btn btn-primary">Modifier</a>
+
+            {% if is_granted('ROLE_CHEF') %}
+                {{ form_start(delete_form, { 'attr': {'class': 'inline-form'}}) }}
+                    <input type="submit" class="btn btn-danger" value="Supprimer">
+                {{ form_end(delete_form) }}
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,45 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/security.html
+security:
+
+    role_hierarchy:
+        ROLE_EDITEUR: ROLE_SERVEUR
+        ROLE_REVIEWER: ROLE_EDITEUR
+        ROLE_CHEF: ROLE_REVIEWER
+
+    encoders:
+        RestaurantBundle\Entity\Utilisateur:
+            algorithm: bcrypt
+            cost: 12
+
+    # http://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    providers:
+        main_provider:
+            entity:
+                class: RestaurantBundle:Utilisateur
+                property: email
+
+    firewalls:
+
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            pattern:   ^/
+            anonymous: true
+            provider: main_provider
+            form_login:
+                login_path: login
+                check_path: login
+            logout:
+                path: logout
+                target: index
+
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        #- { path: ^/menu/show, roles: ROLE_LECTURE }
+        #- { path: ^/menu/new, roles: ROLE_EDITION }
+        #- { path: ^/menu/edit, roles: ROLE_EDITION }
+        #- { path: ^/menu/delete, roles: ROLE_SUPPRESSION }

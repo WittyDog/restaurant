@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Modification d'une réservation</h1>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Formulaire de modification</div>
+        <div class="panel-body">
+            {{ form_start(edit_form) }}
+                {{ form_widget(edit_form) }}
+                <input type="submit" class="btn btn-primary" value="Modifier" />
+            {{ form_end(edit_form) }}
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Actions disponibles</div>
+        <div class="panel-body">
+
+            {% if reservation.statut == "attente" %}
+                <a href="{{ path('reservation_confirm', { 'id': reservation.id }) }}" class="btn btn-primary">Confirmer</a>
+            {% endif %}
+
+            {{ form_start(delete_form, { 'attr': {'class': 'inline-form'} }) }}
+            <input type="submit" class="btn btn-danger" value="Supprimer">
+            {{ form_end(delete_form) }}
+
+            <a href="{{ path('reservation_index') }}" class="btn btn-success">Retour à la liste des réservations</a>
+        </div>
+    </div>
+
+{% endblock %}

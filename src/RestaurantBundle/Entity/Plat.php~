@@ -1,0 +1,314 @@
+<?php
+
+namespace RestaurantBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * Plat
+ *
+ * @ORM\Table(name="plat")
+ * @ORM\Entity(repositoryClass="RestaurantBundle\Repository\PlatRepository")
+ */
+class Plat
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="RestaurantBundle\Entity\Utilisateur", cascade={"persist"})
+     */
+    private $auteur;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="titre", type="string", length=255)
+     */
+    private $titre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=255)
+     */
+    private $description;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="prix", type="float")
+     */
+    private $prix;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="statut", type="string", length=255)
+     */
+    private $statut;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="fait_maison", type="boolean")
+     */
+    private $faitMaison;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="image", type="string", length=255, nullable=true)
+     */
+    private $image;
+
+    /**
+     * @var string
+     *
+     * @Assert\Image()
+     *
+     * @ORM\Column(name="categorie", type="string", length=255, nullable=true)
+     */
+    private $categorie;
+
+    /**
+     * @var array
+     *
+     * @ORM\Column(name="allergenes", type="simple_array", nullable=true)
+     */
+    private $allergenes;
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set titre
+     *
+     * @param string $titre
+     *
+     * @return Plat
+     */
+    public function setTitre($titre)
+    {
+        $this->titre = $titre;
+
+        return $this;
+    }
+
+    /**
+     * Get titre
+     *
+     * @return string
+     */
+    public function getTitre()
+    {
+        return $this->titre;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Plat
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set prix
+     *
+     * @param float $prix
+     *
+     * @return Plat
+     */
+    public function setPrix($prix)
+    {
+        $this->prix = $prix;
+
+        return $this;
+    }
+
+    /**
+     * Get prix
+     *
+     * @return float
+     */
+    public function getPrix()
+    {
+        return $this->prix;
+    }
+
+    /**
+     * Set statut
+     *
+     * @param string $statut
+     *
+     * @return Plat
+     */
+    public function setStatut($statut)
+    {
+        $this->statut = $statut;
+
+        return $this;
+    }
+
+    /**
+     * Get statut
+     *
+     * @return string
+     */
+    public function getStatut()
+    {
+        return $this->statut;
+    }
+
+    /**
+     * Set faitMaison
+     *
+     * @param boolean $faitMaison
+     *
+     * @return Plat
+     */
+    public function setFaitMaison($faitMaison)
+    {
+        $this->faitMaison = $faitMaison;
+
+        return $this;
+    }
+
+    /**
+     * Get faitMaison
+     *
+     * @return bool
+     */
+    public function getFaitMaison()
+    {
+        return $this->faitMaison;
+    }
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     *
+     * @return Plat
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Set categorie
+     *
+     * @param string $categorie
+     *
+     * @return Plat
+     */
+    public function setCategorie($categorie)
+    {
+        $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    /**
+     * Get categorie
+     *
+     * @return string
+     */
+    public function getCategorie()
+    {
+        return $this->categorie;
+    }
+
+    /**
+     * Set allergenes
+     *
+     * @param array $allergenes
+     *
+     * @return Plat
+     */
+    public function setAllergenes($allergenes)
+    {
+        $this->allergenes = $allergenes;
+
+        return $this;
+    }
+
+    /**
+     * Get allergenes
+     *
+     * @return array
+     */
+    public function getAllergenes()
+    {
+        return $this->allergenes;
+    }
+
+    /**
+     * Set auteur
+     *
+     * @param \RestaurantBundle\Entity\Utilisateur $auteur
+     *
+     * @return Plat
+     */
+    public function setAuteur(\RestaurantBundle\Entity\Utilisateur $auteur = null)
+    {
+        $this->auteur = $auteur;
+
+        return $this;
+    }
+
+    /**
+     * Get auteur
+     *
+     * @return \RestaurantBundle\Entity\Utilisateur
+     */
+    public function getAuteur()
+    {
+        return $this->auteur;
+    }
+}

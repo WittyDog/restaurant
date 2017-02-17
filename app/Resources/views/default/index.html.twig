@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="row text-center">
+        <h1>Bienvenue sur le site du restaurant des limougeauds!</h1>
+    </div>
+
+    <br>
+
+    <div class="row" >
+
+        <div class="col-md-10 col-md-offset-1">
+            <p>Et olim licet otiosae sint tribus pacataeque centuriae et nulla suffragiorum certamina set Pompiliani redierit securitas temporis, per omnes tamen quotquot sunt partes terrarum, ut domina suscipitur et regina et ubique patrum reverenda cum auctoritate canities populique Romani nomen circumspectum et verecundum.</p>
+            <p>Cumque pertinacius ut legum gnarus accusatorem flagitaret atque sollemnia, doctus id Caesar libertatemque superbiam ratus tamquam obtrectatorem audacem excarnificari praecepit, qui ita evisceratus ut cruciatibus membra deessent, inplorans caelo iustitiam, torvum renidens fundato pectore mansit inmobilis nec se incusare nec quemquam alium passus et tandem nec confessus nec confutatus cum abiecto consorte poenali est morte multatus. et ducebatur intrepidus temporum iniquitati insultans, imitatus Zenonem illum veterem Stoicum qui ut mentiretur quaedam laceratus diutius, avulsam sedibus linguam suam cum cruento sputamine in oculos interrogantis Cyprii regis inpegit.</p>
+        </div>
+
+    </div>
+
+    <br>
+
+    <div class="row text-center" >
+        <a href="{{ path('menu_index') }}" class="btn btn-default" role="button">
+            <h3>Afficher la liste des menus</h3>
+        </a>
+        <a href="{{ path('plat_index') }}" class="btn btn-default" role="button">
+            <h3>Afficher la liste des plats</h3>
+        </a>
+    </div>
+{% endblock %}

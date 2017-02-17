@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Reservation</h1>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Informations sur la réservation</div>
+        <div class="panel-body">
+            <table class="table table-striped">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ reservation.id }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{% if reservation.date %}{{ reservation.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ reservation.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ reservation.email }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ reservation.nom }}</td>
+            </tr>
+            <tr>
+                <th>Telephone</th>
+                <td>{{ reservation.telephone }}</td>
+            </tr>
+            <tr>
+                <th>Statut</th>
+                <td>{{ reservation.statut }}</td>
+            </tr>
+        </tbody>
+    </table>
+        </div>
+    </div>
+
+    {% if is_granted('ROLE_SERVEUR') %}
+        <div class="panel panel-default">
+            <div class="panel-heading">Actions disponibles</div>
+            <div class="panel-body">
+
+                {% if reservation.statut == "attente" %}
+                    <a href="{{ path('reservation_confirm', { 'id': reservation.id }) }}" class="btn btn-primary">Confirmer</a>
+                {% endif %}
+
+
+                {{ form_start(delete_form, { 'attr': {'class': 'inline-form'} }) }}
+                <input type="submit" class="btn btn-danger" value="Supprimer">
+                {{ form_end(delete_form) }}
+
+
+                <a href="{{ path('reservation_index') }}" class="btn btn-default">Retour à la liste des réservations</a>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

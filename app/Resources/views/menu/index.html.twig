@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Liste des menus</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Auteur</th>
+                <th>Prix</th>
+                <th>Ordre</th>
+                <th>Statut</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for menu in menus %}
+            <tr>
+                <td><a href="{{ path('menu_show', { 'id': menu.id }) }}">{{ menu.id }}</a></td>
+                <td>{{ menu.titre }}</td>
+                <td>
+                    <a href="{{ path('utilisateur_show', { 'id': menu.auteur.id }) }}">{{ menu.auteur.prenom }} {{ menu.auteur.nom }}</a>
+                </td>
+                <td>{{ menu.prix }}</td>
+                <td>{{ menu.ordre }}</td>
+                <td>{{ menu.statut }}</td>
+                <td>
+                    {% if is_granted('ROLE_SERVEUR') %}
+                        <a href="{{ path('menu_show', { 'id': menu.id }) }}" class="btn btn-primary" role="button">Afficher</a>
+                    {% endif %}
+
+                    {% if (is_granted('ROLE_EDITEUR') and menu.auteur.id == app.user.id) or is_granted('ROLE_REVIEWER') %}
+                        <a href="{{ path('menu_edit', { 'id': menu.id }) }}" class="btn btn-success" role="button">Modifier</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('menu_new') }}">Create a new menu</a>
+        </li>
+    </ul>
+{% endblock %}

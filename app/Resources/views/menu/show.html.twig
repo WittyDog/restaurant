@@ -1,0 +1,143 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Menu</h1>
+
+    {% if is_granted('ROLE_SERVEUR') %}
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Descriptif du menu</div>
+            <div class="panel-body">
+
+                <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ menu.id }}</td>
+                </tr>
+                <tr>
+                    <th>Titre</th>
+                    <td>{{ menu.titre }}</td>
+                </tr>
+                <tr>
+                    <th>Auteur</th>
+                    <td>
+                        <a href="{{ path('utilisateur_show', { 'id': menu.auteur.id }) }}">{{ menu.auteur.prenom }} {{ menu.auteur.nom }}</a>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Prix</th>
+                    <td>{{ menu.prix }}</td>
+                </tr>
+                <tr>
+                    <th>Ordre</th>
+                    <td>{{ menu.ordre }}</td>
+                </tr>
+                <tr>
+                    <th>Statut</th>
+                    <td>{{ menu.statut }}</td>
+                </tr>
+                <tr>
+                    <th>Plats</th>
+                    <td>
+                        {% for plat in menu.plats %}
+                            <li><a href="{{ path('plat_show', { 'id': plat.id }) }}">{{ plat.titre }}</a></li>
+                        {% endfor %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Actions disponibles</div>
+            <div class="panel-body">
+
+                {% if (is_granted('ROLE_EDITEUR') and menu.auteur.id == app.user.id) or is_granted('ROLE_REVIEWER') %}
+                    <a href="{{ path('menu_edit', { 'id': menu.id }) }}" class="btn btn-primary">Modifier</a>
+                {% endif %}
+
+                {% if menu.statut == "en validation" and is_granted('ROLE_REVIEWER') %}
+                    <a href="{{ path('menu_validate', { 'id': menu.id }) }}" class="btn btn-success">Valider</a>
+                    <a href="{{ path('menu_refuse', { 'id': menu.id }) }}" class="btn btn-warning">Refuser</a>
+                {% endif %}
+
+                {% if is_granted('ROLE_CHEF') %}
+                    {{ form_start(delete_form, { 'attr': {'class': 'inline-form'}}) }}
+                    <input type="submit" class="btn btn-danger" value="Supprimer">
+                    {{ form_end(delete_form) }}
+                {% endif %}
+
+                <a href="{{ path('menu_index') }}" class="btn btn-default">Retour à la liste des menus</a>
+
+            </div>
+        </div>
+
+    {% else %}
+
+        <div class="panel panel-default">
+            <div class="panel-body text-center">
+
+                <h2>{{ menu.titre }} <small>({{ menu.prix }} €)</small></h2>
+
+                <br>
+
+                <div class="panel panel-success">
+                    <div class="panel-heading"><h3>Entrée</h3></div>
+                    <div class="panel-body">
+
+                        {% for plat in menu.plats %}
+                            {% if plat.categorie == "entrée" %}
+                                <a href="{{ path('plat_show', { 'id': plat.id }) }}" class="btn btn-default btn-lg btn-block" role="button">
+                                    <h4>{{ plat.titre }}</h4>
+                                    <em>{{ plat.description }}</em>
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+
+                    </div>
+                </div>
+
+                <div class="panel panel-success">
+                    <div class="panel-heading"><h3>Plat</h3></div>
+                    <div class="panel-body">
+
+                        {% for plat in menu.plats %}
+                            {% if plat.categorie == "plat" %}
+                                <a href="{{ path('plat_show', { 'id': plat.id }) }}" class="btn btn-default btn-lg btn-block" role="button">
+                                    <h4><strong>{{ plat.titre }}</strong></h4>
+                                    <em>{{ plat.description }}</em>
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+
+                    </div>
+                </div>
+
+                <div class="panel panel-success">
+                    <div class="panel-heading"><h3>Dessert</h3></div>
+                    <div class="panel-body">
+
+                        {% for plat in menu.plats %}
+                            {% if plat.categorie == "dessert" %}
+                                <a href="{{ path('plat_show', { 'id': plat.id }) }}" class="btn btn-default btn-lg btn-block" role="button">
+                                    <h4>{{ plat.titre }}</h4>
+                                    <em>{{ plat.description }}</em>
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+
+    {% endif %}
+
+
+{% endblock %}
