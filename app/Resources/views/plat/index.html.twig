@@ -3,49 +3,79 @@
 {% block body %}
     <h1>Liste des plats</h1>
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Titre</th>
-                <th>Description</th>
-                <th>Auteur</th>
-                <th>Prix</th>
-                <th>Statut</th>
-                <th>Categorie</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for plat in plats %}
-            <tr>
-                <td><a href="{{ path('plat_show', { 'id': plat.id }) }}">{{ plat.id }}</a></td>
-                <td>{{ plat.titre }}</td>
-                <td>{{ plat.description }}</td>
-                <td>
-                    <a href="{{ path('utilisateur_show', { 'id': plat.auteur.id }) }}">{{ plat.auteur.prenom }} {{ plat.auteur.nom }}</a>
-                </td>
-                <td>{{ plat.prix }}</td>
-                <td>{{ plat.statut }}</td>
-                <td>{{ plat.categorie }}</td>
-                <td>
+    {% if (is_granted('ROLE_SERVEUR')) %}
 
-                    {% if is_granted('ROLE_SERVEUR') %}
-                        <a href="{{ path('plat_show', { 'id': plat.id }) }}" class="btn btn-primary" role="button">Afficher</a>
-                    {% endif %}
+        <div class="panel panel-default">
+            <div class="panel-body">
 
-                    {% if (is_granted('ROLE_EDITEUR') and plat.auteur.id == app.user.id) or is_granted('ROLE_REVIEWER') %}
-                        <a href="{{ path('plat_edit', { 'id': plat.id }) }}" class="btn btn-success" role="button">Modifier</a>
-                    {% endif %}
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                <a href="{{ path('plat_new') }}" class="btn btn-primary">+ Ajouter un nouveau plat</a>
 
-    <ul>
-        <li>
-            <a href="{{ path('plat_new') }}">Create a new plat</a>
-        </li>
-    </ul>
+                <br>
+
+                <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Titre</th>
+                    <th>Description</th>
+                    <th>Auteur</th>
+                    <th>Prix</th>
+                    <th>Statut</th>
+                    <th>Categorie</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for plat in plats %}
+                <tr>
+                    <td><a href="{{ path('plat_show', { 'id': plat.id }) }}">{{ plat.id }}</a></td>
+                    <td>{{ plat.titre }}</td>
+                    <td>{{ plat.description }}</td>
+                    <td>
+                        <a href="{{ path('utilisateur_show', { 'id': plat.auteur.id }) }}">{{ plat.auteur.prenom }} {{ plat.auteur.nom }}</a>
+                    </td>
+                    <td>{{ plat.prix }}</td>
+                    <td>{{ plat.statut }}</td>
+                    <td>{{ plat.categorie }}</td>
+                    <td>
+
+                        {% if is_granted('ROLE_SERVEUR') %}
+                            <a href="{{ path('plat_show', { 'id': plat.id }) }}" class="btn btn-primary" role="button">Afficher</a>
+                        {% endif %}
+
+                        {% if (is_granted('ROLE_EDITEUR') and plat.auteur.id == app.user.id) or is_granted('ROLE_REVIEWER') %}
+                            <a href="{{ path('plat_edit', { 'id': plat.id }) }}" class="btn btn-success" role="button">Modifier</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+            </div>
+        </div>
+
+    {% else %}
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                {% for plat in plats %}
+
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-8"><h3>{{ plat.titre }} <small>({{ plat.prix }} €)</small></h3></div>
+                                <div class="col-md-4">
+                                    <a href="{{ path('plat_show', { 'id': plat.id }) }}" class="btn btn-default pull-right" role="button">Afficher le détail</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                {% endfor %}
+            </div>
+        </div>
+
+    {% endif %}
+
 {% endblock %}

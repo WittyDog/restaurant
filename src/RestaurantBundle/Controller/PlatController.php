@@ -27,7 +27,10 @@ class PlatController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $plats = $em->getRepository('RestaurantBundle:Plat')->findAll();
+        $plats = $em->getRepository('RestaurantBundle:Plat')->findBy(
+            array(),
+            array('titre' => 'asc')
+        );
 
         return $this->render('plat/index.html.twig', array(
             'plats' => $plats,

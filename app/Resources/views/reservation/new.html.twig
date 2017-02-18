@@ -3,8 +3,12 @@
 {% block body %}
     <h1>Faire une réservation</h1>
 
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" class="btn btn-primary" value="Valider" />
-    {{ form_end(form) }}
+    <div class="panel panel-default">
+        <div class="panel-body">
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <input type="submit" class="btn btn-primary" value="Valider" />
+            {{ form_end(form) }}
+        </div>
+    </div>
 {% endblock %}

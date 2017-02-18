@@ -3,35 +3,41 @@
 {% block body %}
     <h1>Liste des utilisateurs</h1>
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Prenom</th>
-                <th>Nom</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for utilisateur in utilisateurs %}
-            <tr>
-                <td><a href="{{ path('utilisateur_show', { 'id': utilisateur.id }) }}">{{ utilisateur.id }}</a></td>
-                <td>{{ utilisateur.prenom }}</td>
-                <td>{{ utilisateur.nom }}</td>
-                <td>{{ utilisateur.email }}</td>
-                <td>{{ utilisateur.role }}</td>
-                <td>
-                    <a href="{{ path('utilisateur_show', { 'id': utilisateur.id }) }}" class="btn btn-primary" role="button">Afficher</a>
-                    <a href="{{ path('utilisateur_edit', { 'id': utilisateur.id }) }}" class="btn btn-success" role="button">Modifier</a>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="panel panel-default">
+        <div class="panel-body">
 
-    <div>
-        <a href="{{ path('utilisateur_new') }}">Créer un nouvel utilisateur</a>
+            <a href="{{ path('utilisateur_new') }}" class="btn btn-primary">+ Ajouter un nouvel utilisateur</a>
+
+            <br>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Prenom</th>
+                        <th>Nom</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for utilisateur in utilisateurs %}
+                    <tr>
+                        <td><a href="{{ path('utilisateur_show', { 'id': utilisateur.id }) }}">{{ utilisateur.id }}</a></td>
+                        <td>{{ utilisateur.prenom }}</td>
+                        <td>{{ utilisateur.nom }}</td>
+                        <td>{{ utilisateur.email }}</td>
+                        <td>{{ utilisateur.role }}</td>
+                        <td>
+                            <a href="{{ path('utilisateur_show', { 'id': utilisateur.id }) }}" class="btn btn-primary" role="button">Afficher</a>
+                            <a href="{{ path('utilisateur_edit', { 'id': utilisateur.id }) }}" class="btn btn-success" role="button">Modifier</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
     </div>
 {% endblock %}

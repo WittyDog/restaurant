@@ -27,7 +27,10 @@ class MenuController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $menus = $em->getRepository('RestaurantBundle:Menu')->findAll();
+        $menus = $em->getRepository('RestaurantBundle:Menu')->findBy(
+            array(),
+            array('ordre' => 'asc')
+        );
 
         return $this->render('menu/index.html.twig', array(
             'menus' => $menus,
