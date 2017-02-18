@@ -44,13 +44,17 @@
         <div class="panel-heading">Actions disponibles</div>
         <div class="panel-body">
 
-            <a href="{{ path('utilisateur_edit', { 'id': utilisateur.id }) }}" class="btn btn-primary">Modifier</a>
+            {% if utilisateur == app.user or is_granted('ROLE_CHEF') %}
+                <a href="{{ path('utilisateur_edit', { 'id': utilisateur.id }) }}" class="btn btn-primary">Modifier</a>
+            {% endif %}
 
             {% if is_granted('ROLE_CHEF') %}
                 {{ form_start(delete_form, { 'attr': {'class': 'inline-form'}}) }}
                     <input type="submit" class="btn btn-danger" value="Supprimer">
                 {{ form_end(delete_form) }}
             {% endif %}
+
+            <a href="{{ path('utilisateur_index') }}" class="btn btn-default">Retour à liste des utilisateurs</a>
         </div>
     </div>
 

@@ -31,7 +31,10 @@
                         <td>{{ utilisateur.role }}</td>
                         <td>
                             <a href="{{ path('utilisateur_show', { 'id': utilisateur.id }) }}" class="btn btn-primary" role="button">Afficher</a>
-                            <a href="{{ path('utilisateur_edit', { 'id': utilisateur.id }) }}" class="btn btn-success" role="button">Modifier</a>
+
+                            {% if utilisateur == app.user or is_granted('ROLE_CHEF') %}
+                                <a href="{{ path('utilisateur_edit', { 'id': utilisateur.id }) }}" class="btn btn-success" role="button">Modifier</a>
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}
