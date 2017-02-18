@@ -48,14 +48,12 @@ class PlatController extends Controller
     public function newAction(Request $request)
     {
         $plat = new Plat();
+        $plat->setAuteur($this->getUser());
         $form = $this->createForm('RestaurantBundle\Form\PlatType', $plat);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-
-            $plat->setStatut("brouillon");
-            $plat->setAuteur($this->getUser());
 
             $em->persist($plat);
             $em->flush($plat);
@@ -102,17 +100,14 @@ class PlatController extends Controller
             $plat->setImage(new File($this->getParameter('files_directory') . '/' . $plat->getImage()));
         }
 
+        $plat->setAuteur($this->getUser());
+
         $deleteForm = $this->createDeleteForm($plat);
         $editForm = $this->createForm('RestaurantBundle\Form\PlatType', $plat);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-
-            $plat->setStatut("brouillon");
-            $plat->setAuteur($this->getUser());
-
-            $em->flush($plat);
+            $em = $this->getDoctrine()->getManager()->flush();
 
             // Envoi d'une notification
             $this->addFlash('info', "Le plat intitulé '" . $plat->getTitre() . "' a bien été mis a jour.");

@@ -74,6 +74,7 @@ swiftmailer:
 
 restaurant:
     email_handler:
+        email_address: "no-reply@lerestaurantdeslimougeauds.com"
         menu_validation_request:
             subject: "Demande de validation d'un menu"
             template: '::email/menu_validation_request.html.twig'
@@ -86,6 +87,9 @@ restaurant:
         plat_publication_notification:
             subject: "Publication d'un nouveau plat"
             template: '::email/plat_publication_notification.html.twig'
+        plat_missing_notification:
+            subject: "Menu sans plat"
+            template: '::email/plat_missing_notification.html.twig'
         booking_confirmation:
             subject: "Confirmation de réservation"
             template: '::email/booking_confirmation.html.twig'

@@ -48,13 +48,12 @@ class MenuController extends Controller
     public function newAction(Request $request)
     {
         $menu = new Menu();
+        $menu->setAuteur($this->getUser());
         $form = $this->createForm('RestaurantBundle\Form\MenuType', $menu);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-
-            $menu->setAuteur($this->getUser());
 
             $em->persist($menu);
             $em->flush($menu);
@@ -140,6 +139,9 @@ class MenuController extends Controller
 
         // Envoi d'une notification
         $this->addFlash('info', "Le menu intitulé '" . $menu->getTitre() . "' a bien été validé et publié.");
+
+        if(!$menu->getPlats())
+            $this->get("app.email_handler")->notifyPlatMissingInMenu($menu);
 
         //Notification des serveurs par mail
         $this->get("app.email_handler")->notifyMenuPublication($menu);

@@ -24,6 +24,7 @@ class MenuType extends AbstractType
                 'choice_label' => 'titre',
                 'multiple' => true,
                 'expanded' => true,
+                'required'=> false
             ))
             ->add('statut', ChoiceType::class, array(
                 'choices' => array(

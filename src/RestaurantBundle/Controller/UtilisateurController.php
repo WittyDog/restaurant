@@ -52,7 +52,7 @@ class UtilisateurController extends Controller
             $utilisateur->setPassword($encoded);
 
             $em->persist($utilisateur);
-            $em->flush($utilisateur);
+            $em->flush();
 
             return $this->redirectToRoute('utilisateur_show', array('id' => $utilisateur->getId()));
         }
@@ -87,6 +87,7 @@ class UtilisateurController extends Controller
      */
     public function editAction(Request $request, Utilisateur $utilisateur)
     {
+        $utilisateur->setPassword("");
         $deleteForm = $this->createDeleteForm($utilisateur);
         $editForm = $this->createForm('RestaurantBundle\Form\UtilisateurType', $utilisateur);
         $editForm->handleRequest($request);
@@ -101,7 +102,7 @@ class UtilisateurController extends Controller
 
             $em->flush($utilisateur);
 
-            return $this->redirectToRoute('utilisateur_edit', array('id' => $utilisateur->getId()));
+            return $this->redirectToRoute('utilisateur_show', array('id' => $utilisateur->getId()));
         }
 
         return $this->render('utilisateur/edit.html.twig', array(
